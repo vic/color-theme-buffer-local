@@ -34,11 +34,6 @@
         (setq props (color-theme-plist-delete props :stipple)))
       `((t ,props))))
 
-(defvar color-theme-buffer-local-faces-alias-alist
-  '((modeline mode-line)))
-
-
-
 (defun color-theme-buffer-local-install-face (face spec)
   (or (facep face)
       (make-empty-face face))
@@ -105,13 +100,13 @@
       (funcall 'buffer-face-set default))))
     
 
-(defun color-theme-buffer-local-install (theme &optional buffer)
-  (or buffer (setq buffer (current-buffer)))
+(defun color-theme-buffer-local-install (theme buffer)
   (setq theme (color-theme-canonic theme))
-  (color-theme-buffer-local-install-variables (color-theme-variables theme) buffer)
-  (color-theme-buffer-local-install-faces (color-theme-faces theme) buffer)
-  (color-theme-buffer-local-install-params (color-theme-frame-params theme)
-                                           buffer))
+  (with-current-buffer buffer 
+    (color-theme-buffer-local-install-variables (color-theme-variables theme) buffer)
+    (color-theme-buffer-local-install-faces (color-theme-faces theme) buffer)
+    (color-theme-buffer-local-install-params (color-theme-frame-params theme)
+                                             buffer)))
 
 
 ;;;###autoload
