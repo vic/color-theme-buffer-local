@@ -150,26 +150,19 @@
                                theme (or buffer (current-buffer)))))
     (funcall theme))) 
 
-(defun custom-theme-buffer-local-set-face (buffer face spec &optional base)
-  (with-current-buffer buffer
-    (make-variable-buffer-local 'face-remapping-alist)
-    (let* ((spec (face-spec-choose spec))
-           attrs)
-      (while spec
-        (when (assq (car spec) face-x-resources)
-          (push (car spec) attrs)
-          (push (cadr spec) attrs))
-        (setq spec (cddr spec)))
-      (setq attrs (nreverse attrs))
-      (if (and (eq 'default face) base)
-          (buffer-face-set attrs))
-      (funcall
-       (if base 'face-remap-set-base 'face-remap-add-relative)
-       face attrs))))
-
+(defun custom-theme-buffer-local-spec-attrs (spec)
+  (let* ((spec (face-spec-choose spec))
+         attrs)
+    (while spec
+      (when (assq (car spec) face-x-resources)
+        (push (car spec) attrs)
+        (push (cadr spec) attrs))
+      (setq spec (cddr spec)))
+    (nreverse attrs)))
 
 (defun custom-theme-buffer-local-recalc-face (face buffer)
   (with-current-buffer buffer
+    (let (attrs)
     
     (if (get face 'face-alias)
         (setq face (get face 'face-alias)))
@@ -177,16 +170,25 @@
     ;; first set the default spec
     (or (get face 'customized-face)
         (get face 'saved-face)
-        (custom-theme-buffer-local-set-face
-         buffer face (face-default-spec face) t))
+        (setq attrs
+              (append
+               attrs
+               (custom-theme-buffer-local-spec-attrs
+                (face-default-spec face)))))
 
     (let ((theme-faces (reverse (get face 'theme-face))))
       (dolist (spec theme-faces)
-        (custom-theme-buffer-local-set-face buffer face (cadr spec))))
+        (setq attrs (append
+                     attrs
+                     (custom-theme-buffer-local-spec-attrs (cadr spec))))))
 
     (and (get face 'face-override-spec)
-         (custom-theme-buffer-local-set-faceface-remap-add-relative
-          buffer face (get face 'face-override-spec)))))
+         (setq attrs (append
+                      attrs
+                      (custom-theme-buffer-local-spec-attrs
+                       (get face 'face-override-spec)))))
+
+    (face-remap-set-base face attrs))))
 
 (defun custom-theme-buffer-local-recalc-variable (variable buffer)
   (with-current-buffer buffer
