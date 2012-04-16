@@ -12,7 +12,7 @@ This package uses [Emacs Face Remapping](http://www.gnu.org/software/emacs/manua
 M-x package-install color-theme-buffer-local
 ```
 
-## Usage
+## Using themes made for color-theme.el
 
 Interactively
 ```
@@ -20,8 +20,20 @@ M-x color-theme-buffer-local
 ```
 
 Programmatically
-```lisp
+```
 (color-theme-buffer-local 'color-theme-robin-hood (current-buffer))
+```
+
+## Using themes made for emacs24 themes.
+
+Interactively
+```
+M-x load-theme-buffer-local
+```
+
+Programmatically
+```
+(load-theme-buffer-local 'misterioso (current-buffer))
 ```
 
 ## Issues
