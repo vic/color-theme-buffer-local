@@ -60,6 +60,13 @@
 
   (face-remap-set-base face (cadar spec)))
 
+(defvar color-theme-buffer-local-face-alias
+  '(
+    (modeline . mode-line)
+    (modeline-buffer-id . mode-line-buffer-id)
+    (modeline-mousable . mode-line-mousable)
+    ))
+
 (defun color-theme-buffer-local-install-faces (faces buffer)
   (with-current-buffer buffer
     (make-variable-buffer-local 'face-remapping-alist)
@@ -70,12 +77,12 @@
         (let ((face (nth 0 entry)) (spec (nth 1 entry)))
           (color-theme-buffer-local-install-face face spec)))
 
-      (when (and (assoc 'modeline faces)
-                 (not (assoc 'mode-line faces)))
-        (color-theme-buffer-local-install-face
-         'mode-line
-         (nth 1 (cadr (assoc 'modeline faces)))))
-
+      (dolist (alias color-theme-buffer-local-face-alias)
+        (when (and (assoc (car alias) faces)
+                   (not (assoc (cdr alias) faces)))
+          (color-theme-buffer-local-install-face
+           (cdr alias)
+           (cadr (assoc (car alias) faces)))))
       )))
 
 
