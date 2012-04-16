@@ -8,8 +8,14 @@ This package uses [Emacs Face Remapping](http://www.gnu.org/software/emacs/manua
 
 ## Installation
 
+For color-theme.el themes
 ```
 M-x package-install color-theme-buffer-local
+```
+
+For emacs24 themes
+```
+M-x package-install load-theme-buffer-local
 ```
 
 ## Using themes made for color-theme.el
