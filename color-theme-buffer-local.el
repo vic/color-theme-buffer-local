@@ -11,6 +11,8 @@
 ;;; (add-hook 'java-mode-hook (lambda nil
 ;;;   (color-theme-buffer-local 'color-theme-robin-hood (current-buffer))))
 
+(require 'color-theme)
+
 
 (defun color-theme-buffer-local-install-variables (vars buffer)
   (with-current-buffer buffer
@@ -121,5 +123,8 @@
                               (color-theme-buffer-local-install
                                theme (or buffer (current-buffer)))))
     (funcall theme-name))) 
+
+
+(provide 'color-theme-buffer-local)
 
 ;;; color-theme-buffer-local.el ends here
