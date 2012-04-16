@@ -11,8 +11,6 @@
 ;;; (add-hook 'java-mode-hook (lambda nil
 ;;;   (color-theme-buffer-local 'color-theme-robin-hood (current-buffer))))
 
-(require 'color-theme)
-
 
 (defun color-theme-buffer-local-install-variables (vars buffer)
   (with-current-buffer buffer
@@ -110,13 +108,13 @@
 
 
 ;;;###autoload
-(defun color-theme-buffer-local (theme-name &optional buffer)
+(defun color-theme-buffer-local (theme &optional buffer)
   "Install the color-theme defined by THEME on BUFFER.
 
-     THEME must be a symbol whose value as a function calls
-     `color-theme-install' to install a theme.
+   THEME must be a symbol whose value as a function calls
+   `color-theme-install' to install a theme.
 
-     BUFFER defaults to the current buffer if not explicitly given."
+   BUFFER defaults to the current buffer if not explicitly given."
   (interactive
    (list (intern (ido-completing-read "Install color-theme: "
                                        (mapcar 'symbol-name
@@ -125,7 +123,14 @@
   (flet ((color-theme-install (theme)
                               (color-theme-buffer-local-install
                                theme (or buffer (current-buffer)))))
-    (funcall theme-name))) 
+    (funcall theme))) 
+
+
+;;;###autoload
+(defun load-theme-buffer-local (theme &optional buffer)
+  "Load an Emacs24 THEME only in BUFFER."
+  (interactive)
+  nil)
 
 
 (provide 'color-theme-buffer-local)
