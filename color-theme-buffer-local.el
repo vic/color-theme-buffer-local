@@ -1,5 +1,5 @@
 ;;; color-theme-buffer-local.el --- Install color-themes by buffer.
-;;; Version: 0.0.1
+;;; Version: 0.0.2
 ;;; Author: Victor Borja <vic.borja@gmail.com>
 ;;; URL: http://github.com/vic/color-theme-buffer-local
 ;;; Description: Set color-theme by buffer.
