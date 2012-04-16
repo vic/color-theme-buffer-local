@@ -6,10 +6,17 @@
 ;;; 
 
 ;;;
-;;; Usage:
+;;; Usage for color-theme.el themes:
 ;;;
 ;;; (add-hook 'java-mode-hook (lambda nil
 ;;;   (color-theme-buffer-local 'color-theme-robin-hood (current-buffer))))
+;;;
+;;; Usage for emacs24 builtin themes:
+;;;
+;;;
+;;; (add-hook 'java-mode-hook (lambda nil
+;;;   (load-theme-buffer-local 'misterioso (current-buffer))))
+
 
 
 (defun color-theme-buffer-local-install-variables (vars buffer)
@@ -125,12 +132,72 @@
                                theme (or buffer (current-buffer)))))
     (funcall theme))) 
 
+(defun custom-theme-buffer-local-set-face (buffer face spec &optional base)
+  (with-current-buffer buffer
+    (make-variable-buffer-local 'face-remapping-alist)
+    (let* ((spec (face-spec-choose spec))
+           attrs)
+      (while spec
+        (when (assq (car spec) face-x-resources)
+          (push (car spec) attrs)
+          (push (cadr spec) attrs))
+        (setq spec (cddr spec)))
+      (setq attrs (nreverse attrs))
+      (if (and (eq 'default face) base)
+          (buffer-face-set attrs))
+      (funcall
+       (if base 'face-remap-set-base 'face-remap-add-relative)
+       face attrs))))
+
+
+(defun custom-theme-buffer-local-recalc-face (face buffer)
+  (with-current-buffer buffer
+    
+    (if (get face 'face-alias)
+        (setq face (get face 'face-alias)))
+    
+    ;; first set the default spec
+    (or (get face 'customized-face)
+        (get face 'saved-face)
+        (custom-theme-buffer-local-set-face
+         buffer face (face-default-spec face) t))
+
+    (let ((theme-faces (reverse (get face 'theme-face))))
+      (dolist (spec theme-faces)
+        (custom-theme-buffer-local-set-face buffer face (cadr spec))))
+
+    (and (get face 'face-override-spec)
+         (custom-theme-buffer-local-set-faceface-remap-add-relative
+          buffer face (get face 'face-override-spec)))))
+
+(defun custom-theme-buffer-local-recalc-variable (variable buffer)
+  (with-current-buffer buffer
+    (make-variable-buffer-local variable)
+    (let ((valspec (custom-variable-theme-value variable)))
+      (if valspec
+          (put variable 'saved-value valspec)
+        (setq valspec (get variable 'standard-value)))
+      (if (and valspec
+               (or (get variable 'force-value)
+                   (default-boundp variable)))
+          (funcall (or (get variable 'custom-set) 'set-default) variable
+                   (eval (car valspec)))))))
+
 
 ;;;###autoload
 (defun load-theme-buffer-local (theme &optional buffer)
   "Load an Emacs24 THEME only in BUFFER."
-  (interactive)
-  nil)
+  (interactive
+   (list (intern (ido-completing-read
+                  "Install theme: "
+                  (mapcar 'symbol-name (custom-available-themes))))
+         (ido-read-buffer "on Buffer: " (current-buffer) t)))
+  (or buffer (setq buffer (current-buffer)))
+  (flet ((custom-theme-recalc-face
+          (symbol) (custom-theme-buffer-local-recalc-face symbol buffer))
+         (custom-theme-recalc-variable
+          (symbol) (custom-theme-buffer-local-recalc-variable symbol buffer)))
+    (load-theme theme)))
 
 
 (provide 'color-theme-buffer-local)
