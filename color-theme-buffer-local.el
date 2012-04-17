@@ -69,9 +69,9 @@
   (setq spec (color-theme-buffer-local-spec-compat spec))
 
   (if (eq 'default face)
-      (buffer-face-set (cadar spec)))
+      (buffer-face-set (face-spec-choose spec)))
 
-  (face-remap-set-base face (cadar spec)))
+  (face-remap-set-base face (face-spec-choose spec)))
 
 (defvar color-theme-buffer-local-face-alias
   '(
