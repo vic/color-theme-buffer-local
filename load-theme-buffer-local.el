@@ -86,7 +86,7 @@
 
 
 ;;;###autoload
-(defun load-theme-buffer-local (theme &optional buffer)
+(defun load-theme-buffer-local (theme &optional buffer no-confirm no-enable)
   "Load an Emacs24 THEME only in BUFFER."
   (interactive
    (list (intern (ido-completing-read
@@ -98,7 +98,7 @@
           (symbol) (custom-theme-buffer-local-recalc-face symbol buffer))
          (custom-theme-recalc-variable
           (symbol) (custom-theme-buffer-local-recalc-variable symbol buffer)))
-    (load-theme theme)))
+    (load-theme theme no-confirm no-enable)))
 
 
 (provide 'load-theme-buffer-local)
