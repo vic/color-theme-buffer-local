@@ -89,10 +89,10 @@
 (defun load-theme-buffer-local (theme &optional buffer no-confirm no-enable)
   "Load an Emacs24 THEME only in BUFFER."
   (interactive
-   (list (intern (ido-completing-read
+   (list (intern (completing-read
                   "Install theme: "
                   (mapcar 'symbol-name (custom-available-themes))))
-         (ido-read-buffer "on Buffer: " (current-buffer) t)))
+         (read-buffer "on Buffer: " (current-buffer) t)))
   (or buffer (setq buffer (current-buffer)))
   (flet ((custom-theme-recalc-face
           (symbol) (custom-theme-buffer-local-recalc-face symbol buffer))

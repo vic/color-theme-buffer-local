@@ -136,10 +136,10 @@
 
    BUFFER defaults to the current buffer if not explicitly given."
   (interactive
-   (list (intern (ido-completing-read "Install color-theme: "
+   (list (intern (completing-read "Install color-theme: "
                                        (mapcar 'symbol-name
                                                (mapcar 'car color-themes))))
-         (ido-read-buffer "on Buffer: " (current-buffer) t)))
+         (read-buffer "on Buffer: " (current-buffer) t)))
   (flet ((color-theme-install (theme)
                               (color-theme-buffer-local-install
                                theme (or buffer (current-buffer)))))
