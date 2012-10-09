@@ -18,6 +18,11 @@ For emacs24 themes
 M-x package-install load-theme-buffer-local
 ```
 
+If the above doesn't work, you may need to [configure your Emacs to
+use the Marmalade repository](http://marmalade-repo.org/) and try
+again.
+
+
 ## Using themes made for color-theme.el
 
 Interactively
