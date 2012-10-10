@@ -22,6 +22,7 @@ If the above doesn't work, you may need to [configure your Emacs to
 use the Marmalade repository](http://marmalade-repo.org/) and try
 again.
 
+Daily snapshots from the github repo are installable from the [MELPA repository](http://melpa.milkbox.net/)
 
 ## Using themes made for color-theme.el
 
