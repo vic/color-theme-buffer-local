@@ -29,7 +29,7 @@
 ;;;
 ;;; (add-hook 'java-mode-hook (lambda nil
 ;;;   (load-theme-buffer-local 'misterioso (current-buffer))))
-
+(require 'noflet)
 
 (defun custom-theme-buffer-local-spec-attrs (spec)
   (let* ((spec (face-spec-choose spec))
@@ -94,7 +94,7 @@
                   (mapcar 'symbol-name (custom-available-themes))))
          (read-buffer "on Buffer: " (current-buffer) t)))
   (or buffer (setq buffer (current-buffer)))
-  (flet ((custom-theme-recalc-face
+  (noflet ((custom-theme-recalc-face
           (symbol) (custom-theme-buffer-local-recalc-face symbol buffer))
          (custom-theme-recalc-variable
           (symbol) (custom-theme-buffer-local-recalc-variable symbol buffer)))
