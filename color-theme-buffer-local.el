@@ -1,9 +1,13 @@
 ;;; color-theme-buffer-local.el --- Install color-themes by buffer.
-;;; Version: 0.0.2
+
+;;; Name: color-theme-buffer-local
+;;; Version: 0.0.3
 ;;; Author: Victor Borja <vic.borja@gmail.com>
 ;;; URL: http://github.com/vic/color-theme-buffer-local
 ;;; Description: Set color-theme by buffer.
 ;;; Keywords: faces
+;;; Package-Requires: ((color-theme))
+;;; Dependencies: ((color-theme))
 
 
 ;; This file is not part of GNU Emacs. Licensed on the same terms as
