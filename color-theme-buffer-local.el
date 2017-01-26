@@ -6,7 +6,7 @@
 ;;; URL: http://github.com/vic/color-theme-buffer-local
 ;;; Description: Set color-theme by buffer.
 ;;; Keywords: faces
-;;; Package-Requires: ((color-theme))
+;;; Package-Requires: ((color-theme "0"))
 ;;; Dependencies: ((color-theme))
 
 
