@@ -1,3 +1,6 @@
+[![help maintain this lib](https://img.shields.io/badge/looking%20for%20maintainer-DM%20%40vborja-663399.svg)](https://twitter.com/vborja)
+
+
 ## About
 
 This emacs lisp package lets you set a color-theme on a per-buffer basis.
